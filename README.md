@@ -1,7 +1,7 @@
 # Score-matching neural networks for likelihood based galaxy morphology priors
 ## Matt Sampson
 
-<img src="compare.png" height="500">
+<img src="compare.png" height="400">
 
 For the use of galaxy deblending we construct a time-independent 
 score matching model (diffusion model) with a U-NET architecture. The architecture
