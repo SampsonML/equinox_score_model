@@ -168,12 +168,12 @@ def main(
 
     # load stored model
     SAVE_DIR = 'stored_models'
-    fn = SAVE_DIR + '/eqx_model_step_10000_res_64.eqx'
-    eqx.tree_serialise_leaves(fn, model)
+    fn = SAVE_DIR + '/eqx_model_step_15000_res_64.eqx'
+    #eqx.tree_serialise_leaves(fn, model)
     best_model = eqx.tree_deserialise_leaves(fn, model)
     PLOT_DIR = 'plots'
 
-    vis_steps = 50
+    vis_steps = 20
     t_vec = jnp.linspace(t1, 0, vis_steps)
     sample_key = jr.split(sample_key, sample_size**2)
     for i in range(len(t_vec)):
