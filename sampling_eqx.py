@@ -187,12 +187,13 @@ def main(
     # choose point in time to evaluate score
     #tkey , dummy_key= jr.split(train_key)
     t_eval = 1.0
-    t = jnp.array([t_eval])
-    t = jnp.expand_dims(t, axis=0) # add batch dimension
+    t = t_eval 
+    #t = jnp.array([t_eval])
+    #t = jnp.expand_dims(t, axis=0) # add batch dimension
     #t = jr.uniform(tkey, (batch_size,), minval=0, maxval=t1 / batch_size)
     #t = t + (t1 / batch_size) * jnp.arange(batch_size)
     #t = einops.reduce(t, 'b -> () b', 'max')
-    print(f'shape of t: {t.shape}')
+    #print(f'shape of t: {t.shape}')
     print(f't is: {t}')
     
     #_, height, width = y.shape
