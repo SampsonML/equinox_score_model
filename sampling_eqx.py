@@ -184,12 +184,12 @@ def main(
     test_size = data.shape[0]
     
     # choose point in time to evaluate score
-    t = [2.0]
+    t = jnp.array[1.0]
     #tkey, losskey = jr.split(train_key)
     #t = jr.uniform(tkey, (test_size,), minval=0, maxval=t1 / test_size)
     #t = t + (t1 / test_size) * jnp.arange(test_size)
-    #print(f'shape of t: {t.shape}')
-    #print(f't is: {t}')
+    print(f'shape of t: {t.shape}')
+    print(f't is: {t}')
 
     # evaluate score with trained model
     score = best_model(t,y)
