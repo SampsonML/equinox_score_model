@@ -173,9 +173,13 @@ def main(
     best_model = eqx.tree_deserialise_leaves(fn, model)
     PLOT_DIR = 'plots'
     
+    # ----------------- testing ----------------- #
     # testing plot
-    t = 0
+    test_size = 1
+    t = jr.uniform(train_key, (test_size,), minval=0, maxval=0 / test_size)
+    t = t + (t1 / test_size) * jnp.arange(test_size)
     y = data[0]
+    y = jnp.squeeze(y,axis=0)
     print(f'shape of y: {y.shape}')
     score = best_model(t,y)
     print(f'shape of score: {score.shape}')
@@ -185,6 +189,7 @@ def main(
     plt.subplot(1,2,2)
     plt.imshow(y)
     plt.savefig(PLOT_DIR + '/score_test.png')
+    # ------------------- end ------------------- #
 
     sample_key = jr.split(sample_key, sample_size**2)
     sample_fn = ft.partial(single_sample_fn, best_model, int_beta, data_shape, dt0, t1)
