@@ -168,7 +168,7 @@ def main(
 
     # load stored model
     SAVE_DIR = 'stored_models'
-    fn = SAVE_DIR + '/eqx_model_step_20000_res_64.eqx'
+    fn = SAVE_DIR + '/eqx_model_step_0_res_64.eqx'
     #eqx.tree_serialise_leaves(fn, model)
     best_model = eqx.tree_deserialise_leaves(fn, model)
     PLOT_DIR = 'plots'
@@ -180,7 +180,10 @@ def main(
     score = best_model(t,y)
     print(f'shape of score: {score.shape}')
     fig = plt.figure(figsize=(16, 16), dpi = 250)
+    plt.subplot(1,2,1)
     plt.imshow(score,cmap='plasma')
+    plt.subplot(1,2,2)
+    plt.imshow(y)
     plt.savefig(PLOT_DIR + '/score_test.png')
 
     sample_key = jr.split(sample_key, sample_size**2)
