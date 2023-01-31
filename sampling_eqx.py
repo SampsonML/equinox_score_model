@@ -195,7 +195,8 @@ def main(
     print(f't is: {t}')
     
     _, height, width = y.shape
-    t = einops.repeat(t, "-> 1 h w", h=height, w=width)
+    t = einops.repeat(t, "-> 0 h w", h=height, w=width)
+    print('here')
 
     # evaluate score with trained model
     score = best_model(t,y)
