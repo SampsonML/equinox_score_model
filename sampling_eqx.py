@@ -186,7 +186,7 @@ def main(
     batch_size = 1
     # choose point in time to evaluate score
     tkey , dummy_key= jr.split(train_key)
-    t_eval = 1e-2
+    t_eval = 0
     t = t_eval 
     print(f't is: {t}')
 
@@ -197,7 +197,7 @@ def main(
     # plot and save results
     fig = plt.figure(figsize=(16, 16), dpi = 250)
     plt.subplot(1,2,1)
-    plt.imshow(score[0],cmap='cividis')
+    plt.imshow(score[0],cmap=cmr.iceburn)
     plt.title(r'$\nabla log(p_t(\mathbf{x}))$',fontsize=20)
     plt.subplot(1,2,2)
     plt.imshow(y[0])
