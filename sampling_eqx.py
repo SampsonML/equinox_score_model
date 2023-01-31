@@ -180,15 +180,16 @@ def main(
     # ------------------------------------------- #
     # take single galaxy sample
     y = data[0]
+    y = jnp.expand_dims(y, axis=0) # add dim for channel)
     print(f'shape of y: {y.shape}')
     test_size = data.shape[0]
     batch_size = 2
     # choose point in time to evaluate score
-    tkey , dummy_key= jr.split(train_key)
+    #tkey , dummy_key= jr.split(train_key)
     t_eval = 1.0
     t = jnp.array([t_eval])
-    t = jr.uniform(tkey, (batch_size,), minval=0, maxval=t1 / batch_size)
-    t = t + (t1 / batch_size) * jnp.arange(batch_size)
+    #t = jr.uniform(tkey, (batch_size,), minval=0, maxval=t1 / batch_size)
+    #t = t + (t1 / batch_size) * jnp.arange(batch_size)
     #t = einops.reduce(t, 'b -> () b', 'max')
     print(f'shape of t: {t.shape}')
     print(f't is: {t}')
