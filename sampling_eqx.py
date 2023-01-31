@@ -179,9 +179,9 @@ def main(
     test_size = 1
     tkey, losskey = jr.split(train_key)
     t = jr.uniform(tkey, (test_size,), minval=0, maxval=t1 / test_size)
-    t = t + (t1 / test_size) * jnp.arange(test_size)
-    t = 1
-    #print(f'shape of t: {t.shape}')
+    #t = t + (t1 / test_size) * jnp.arange(test_size)
+    #t = 1
+    print(f'shape of t: {t.shape}')
     print(f't is: {t}')
     y = data[0]
     #y = jnp.squeeze(y,axis=0)
