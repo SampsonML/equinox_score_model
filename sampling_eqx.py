@@ -179,8 +179,8 @@ def main(
     # pure noise (or at least close to it)        #
     # ------------------------------------------- #
     # take single galaxy sample
+    # note data stored as (batch, channel, height, width)
     y = data[0]
-    y = jnp.expand_dims(y, axis=0) # add dim for channel)
     print(f'shape of y: {y.shape}')
     test_size = data.shape[0]
     batch_size = 2
@@ -193,6 +193,9 @@ def main(
     #t = einops.reduce(t, 'b -> () b', 'max')
     print(f'shape of t: {t.shape}')
     print(f't is: {t}')
+    
+    _, height, width = y.shape
+    t = einops.repeat(t, "-> 1 h w", h=height, w=width)
 
     # evaluate score with trained model
     score = best_model(t,y)
