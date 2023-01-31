@@ -188,13 +188,6 @@ def main(
     tkey , dummy_key= jr.split(train_key)
     t_eval = 1.0
     t = t_eval 
-    #t = jr.uniform(tkey, (batch_size,), minval=0, maxval=t1 / batch_size)
-    #t = jnp.array([t_eval])
-    #t = jnp.expand_dims(t, axis=0) # add batch dimension
-    #t = jr.uniform(tkey, (batch_size,), minval=0, maxval=t1 / batch_size)
-    #t = t + (t1 / batch_size) * jnp.arange(batch_size)
-    #t = einops.reduce(t, 'b -> () b', 'max')
-    #print(f'shape of t: {t.shape}')
     print(f't is: {t}')
 
     # evaluate score with trained model

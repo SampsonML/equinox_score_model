@@ -82,7 +82,9 @@ class ScoreNet(eqx.Module):
     def __call__(self, t, y):
         t = t / self.t1
         _, height, width = y.shape
-        t = einops.repeat(t, "-> 1 h w", h=height, w=width)
+        #t = einops.repeat(t, "-> 1 h w", h=height, w=width)
+        t = jnp.ones([height, width]) * t
+        t = jnp.expand_dims(t, axis=0) 
         y = jnp.concatenate([y, t])
         y = self.conv_in(y)
         _, patch_height, patch_width = y.shape
