@@ -178,8 +178,10 @@ def main(
     test_size = 1
     t = jr.uniform(train_key, (test_size,), minval=0, maxval=0 / test_size)
     t = t + (t1 / test_size) * jnp.arange(test_size)
+    print(f'shape of t: {t.shape}')
+    print(f't is: {t}')
     y = data[0]
-    y = jnp.squeeze(y,axis=0)
+    #y = jnp.squeeze(y,axis=0)
     print(f'shape of y: {y.shape}')
     score = best_model(t,y)
     print(f'shape of score: {score.shape}')
