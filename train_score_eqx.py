@@ -12,6 +12,7 @@
 # Created: 2023                                                                  #
 # ------------------------------------------------------------------------------ #
 
+import os
 import functools as ft
 import diffrax as dfx  # https://github.com/patrick-kidger/diffrax
 import einops  # https://github.com/arogozhnikov/einops
@@ -170,9 +171,14 @@ def main(
     # Seed
     seed=5678,
 ):
+    
+    # save parameters
+    SAVE_DIR = 'stored_models'
+    if not os.path.exists(SAVE_DIR):
+        os.makedirs(SAVE_DIR)
+    
     key = jr.PRNGKey(seed)
     model_key, train_key, loader_key, sample_key = jr.split(key, 4)
-    #data = mnist()
     data = HST_data(args.size)
     data_mean = jnp.mean(data)
     data_std = jnp.std(data)
@@ -214,6 +220,10 @@ def main(
             print(f"Step={step} Loss={total_value / total_size}")
             total_value = 0
             total_size = 0
+            
+            # save the model
+            fn = SAVE_DIR + 'eqx_model_step_' +str(step) + '_res_' + str(args.size) + '.eqx'
+            eqx.tree_serialise_leaves(fn, model)
 
     sample_key = jr.split(sample_key, sample_size**2)
     sample_fn = ft.partial(single_sample_fn, model, int_beta, data_shape, dt0, t1)
