@@ -174,10 +174,9 @@ def main(
 
     vis_steps = 10
     t_vec = jnp.linspace(t1, 0, vis_steps)
-    
+    sample_key = jr.split(sample_key, sample_size**2)
     for i in range(len(t_vec)):
         t0 = t_vec[i]
-        sample_key = jr.split(sample_key, sample_size**2)
         sample_fn = ft.partial(single_sample_fn, model, int_beta, data_shape, dt0, t1,t0)
         sample = jax.vmap(sample_fn)(sample_key)
         sample = data_mean + data_std * sample
@@ -193,9 +192,9 @@ def main(
         plt.imshow(sample, cmap=cmap)
         plt.axis("off")
         plt.tight_layout()
-        filename = 'galaxies_t_' + str(t0) + 'res' + str(args.size) + '.png'
+        filename = 'galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.png'
         plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)
-        filename = 'galaxies_t_' + str(t0) + 'res' + str(args.size) + '.pdf'
+        filename = 'galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.pdf'
         plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
 
 
