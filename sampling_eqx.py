@@ -174,7 +174,7 @@ def main(
     PLOT_DIR = 'plots'
 
     sample_key = jr.split(sample_key, sample_size**2)
-    sample_fn = ft.partial(single_sample_fn, model, int_beta, data_shape, dt0, t1)
+    sample_fn = ft.partial(single_sample_fn, best_model, int_beta, data_shape, dt0, t1)
     sample = jax.vmap(sample_fn)(sample_key)
     sample = data_mean + data_std * sample
     sample = jnp.clip(sample, data_min, data_max)
