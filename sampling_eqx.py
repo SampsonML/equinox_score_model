@@ -195,6 +195,7 @@ def main(
         plt.tight_layout()
         filename = PLOT_DIR + '/galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.png'
         plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)
+        plt.close()
         #filename = PLOT_DIR + '/galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.pdf'
         #plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
 
