@@ -222,7 +222,7 @@ def main(
             total_size = 0
             
             # save the model
-            fn = SAVE_DIR + 'eqx_model_step_' +str(step) + '_res_' + str(args.size) + '.eqx'
+            fn = SAVE_DIR + '/eqx_model_step_' +str(step) + '_res_' + str(args.size) + '.eqx'
             eqx.tree_serialise_leaves(fn, model)
 
     sample_key = jr.split(sample_key, sample_size**2)
