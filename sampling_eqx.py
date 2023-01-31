@@ -175,8 +175,10 @@ def main(
     
     # ----------------- testing ----------------- #
     # testing plot
+    t1 = 10.0
     test_size = 1
-    t = jr.uniform(train_key, (test_size,), minval=0, maxval=0 / test_size)
+    tkey, losskey = jr.split(train_key)
+    t = jr.uniform(tkey, (test_size,), minval=0, maxval=t1 / test_size)
     t = t + (t1 / test_size) * jnp.arange(test_size)
     print(f'shape of t: {t.shape}')
     print(f't is: {t}')
