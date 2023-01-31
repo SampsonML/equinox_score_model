@@ -50,14 +50,14 @@ args    = parser.parse_args()
 
 
 @eqx.filter_jit
-def single_sample_fn(model, int_beta, data_shape, dt0, t1, key):
+def single_sample_fn(model, int_beta, data_shape, dt0, t1, t0, key):
     def drift(t, y, args):
         _, beta = jax.jvp(int_beta, (t,), (jnp.ones_like(t),))
         return -0.5 * beta * (y + model(t, y))
 
     term = dfx.ODETerm(drift)
     solver = dfx.Tsit5()
-    t0 = 0
+    #t0 = 0
     y1 = jr.normal(key, data_shape)
     # reverse time, solve from t1 to t0
     sol = dfx.diffeqsolve(term, solver, t1, t0, -dt0, y1, adjoint=dfx.NoAdjoint())
@@ -121,16 +121,6 @@ def dataloader(data, batch_size, *, key):
             end = start + batch_size
 
 
-@eqx.filter_jit
-def make_step(model, weight, int_beta, data, t1, key, opt_state, opt_update):
-    loss_fn = eqx.filter_value_and_grad(batch_loss_fn)
-    loss, grads = loss_fn(model, weight, int_beta, data, t1, key)
-    updates, opt_state = opt_update(grads, opt_state)
-    model = eqx.apply_updates(model, updates)
-    key = jr.split(key, 1)[0]
-    return loss, model, key, opt_state
-
-
 def main(
     # Model hyperparameters
     patch_size=4,
@@ -139,11 +129,6 @@ def main(
     mix_hidden_size=512,
     num_blocks=4,
     t1=10.0,
-    # Optimisation hyperparameters
-    num_steps=50_000,
-    lr=3e-4,
-    batch_size=256,
-    print_every=5_000,
     # Sampling hyperparameters
     dt0=0.1,
     sample_size=10,
@@ -181,32 +166,38 @@ def main(
         -int_beta(t)
     )  # Just chosen to upweight the region near t=0.
 
-
+    # load stored model
+    SAVE_DIR = 'stored_models'
+    fn = SAVE_DIR + '/eqx_model_step_0_res_64.eqx'
     eqx.tree_serialise_leaves(fn, model)
     model_loaded = eqx.tree_deserialise_leaves(fn, model)
 
+    vis_steps = 10
+    t_vec = jnp.linspace(t1, 0, vis_steps)
+    
+    for i in range(len(t_vec)):
+        t0 = t_vec[i]
+        sample_key = jr.split(sample_key, sample_size**2)
+        sample_fn = ft.partial(single_sample_fn, model, int_beta, data_shape, dt0, t1,t0)
+        sample = jax.vmap(sample_fn)(sample_key)
+        sample = data_mean + data_std * sample
+        sample = jnp.clip(sample, data_min, data_max)
+        sample = einops.rearrange(
+            sample, "(n1 n2) 1 h w -> (n1 h) (n2 w)", n1=sample_size, n2=sample_size
+        )
+        cmap = cmr.lilac
+        fig = plt.figure(figsize=(16, 16), dpi = 250)
+        plt.style.use('dark_background')
+        title = 'score based generation of equinox models'
+        plt.suptitle(title, fontsize = 30)
+        plt.imshow(sample, cmap=cmap)
+        plt.axis("off")
+        plt.tight_layout()
+        filename = 'galaxies_t_' + str(t0) + 'res' + str(args.size) + '.png'
+        plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)
+        filename = 'galaxies_t_' + str(t0) + 'res' + str(args.size) + '.pdf'
+        plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
 
-    sample_key = jr.split(sample_key, sample_size**2)
-    sample_fn = ft.partial(single_sample_fn, model, int_beta, data_shape, dt0, t1)
-    sample = jax.vmap(sample_fn)(sample_key)
-    sample = data_mean + data_std * sample
-    sample = jnp.clip(sample, data_min, data_max)
-    sample = einops.rearrange(
-        sample, "(n1 n2) 1 h w -> (n1 h) (n2 w)", n1=sample_size, n2=sample_size
-    )
-    cmap = cmr.lilac
-    fig = plt.figure(figsize=(16, 16), dpi = 250)
-    plt.style.use('dark_background')
-    title = 'score based generation of equinox models'
-    plt.suptitle(title, fontsize = 30)
-    plt.imshow(sample, cmap=cmap)
-    plt.axis("off")
-    plt.tight_layout()
-    filename = 'score_based_equinox_models_res' + str(args.size) + '.png'
-    plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)
-    filename = 'score_based_equinox_models_res' + str(args.size) + '.pdf'
-    plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
-    plt.show()
 
 # Code entry point
 if __name__ == '__main__':
