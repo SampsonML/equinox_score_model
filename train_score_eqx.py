@@ -84,6 +84,9 @@ def single_sample_fn(model, int_beta, data_shape, dt0, t1, key):
     sol = dfx.diffeqsolve(term, solver, t1, t0, -dt0, y1, adjoint=dfx.NoAdjoint())
     return sol.ys[0]
 
+def norm_array(array):
+    norm_array = (array-np.min(array))/(np.max(array)-np.min(array))
+    return norm_array
 
 def HST_data(im_size):
     if im_size == 32:
@@ -94,6 +97,7 @@ def HST_data(im_size):
         data_padded_31 = []
         for i in range(len(dataset)):
             data_padded_tmp = np.pad(dataset[i], ((0,1),(0,1)), 'constant')
+            data_padded_tmp = norm_array(data_padded_tmp)
             data_padded_31.append(data_padded_tmp)
         dataset = np.array( data_padded_31 )
 
@@ -105,6 +109,7 @@ def HST_data(im_size):
         data_padded_51 = []
         for i in range(len(dataset)):
             data_padded_tmp = np.pad(dataset[i], ((6,7),(6,7)), 'constant')
+            data_padded_tmp = norm_array(data_padded_tmp)
             data_padded_51.append(data_padded_tmp)
         dataset_51 = np.array( data_padded_51 )
         # load in data  high res
@@ -115,6 +120,7 @@ def HST_data(im_size):
         data_padded_61 = []
         for i in range(len(dataset)):
             data_padded_tmp = np.pad(dataset[i], ((1,2),(1,2)), 'constant')
+            data_padded_tmp = norm_array(data_padded_tmp)
             data_padded_61.append(data_padded_tmp)
         # add a loop to add 51 and 61 data together
         for i in range(len(dataset_51)):
@@ -161,10 +167,10 @@ def main(
     num_blocks=4,
     t1=10.0,
     # Optimisation hyperparameters
-    num_steps=50_000,
+    num_steps=2_000_000,
     lr=3e-4,
     batch_size=256,
-    print_every=5_000,
+    print_every=50_000,
     # Sampling hyperparameters
     dt0=0.1,
     sample_size=10,
@@ -220,7 +226,6 @@ def main(
             print(f"Step={step} Loss={total_value / total_size}")
             total_value = 0
             total_size = 0
-            
             # save the model
             fn = SAVE_DIR + '/eqx_model_step_' +str(step) + '_res_' + str(args.size) + '.eqx'
             eqx.tree_serialise_leaves(fn, model)
@@ -241,9 +246,9 @@ def main(
     plt.imshow(sample, cmap=cmap)
     plt.axis("off")
     plt.tight_layout()
-    filename = 'score_based_equinox_models_res' + str(args.size) + '.png'
+    filename = 'galaxy_samples_res' + str(args.size) + '.png'
     plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)
-    filename = 'score_based_equinox_models_res' + str(args.size) + '.pdf'
+    filename = 'galaxy_samples_res' + str(args.size) + '.pdf'
     plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
     plt.show()
 
