@@ -194,7 +194,7 @@ def main(
     #t = jr.uniform(tkey, (batch_size,), minval=0, maxval=t1 / batch_size)
     #t = t + (t1 / batch_size) * jnp.arange(batch_size)
     #t = einops.reduce(t, 'b -> () b', 'max')
-    print(f'shape of t: {t.shape}')
+    #print(f'shape of t: {t.shape}')
     print(f't is: {t}')
 
     # evaluate score with trained model
