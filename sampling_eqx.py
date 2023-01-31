@@ -199,10 +199,12 @@ def main(
     plt.subplot(1,2,1)
     plt.imshow(score[0],cmap=cmr.iceburn)
     plt.title(r'$\nabla log(p_t(\mathbf{x}))$',fontsize=20)
+    plt.colorbar()
     plt.subplot(1,2,2)
     plt.imshow(y[0])
     plt.title('scarlet model',fontsize=20)
-    plt.savefig(PLOT_DIR + '/score_test.png')
+    name = '/score_test_t_' + str(t_eval) + '.png'
+    plt.savefig(PLOT_DIR + name)
     # ------------------- end ------------------- #
 
     sample_key = jr.split(sample_key, sample_size**2)
