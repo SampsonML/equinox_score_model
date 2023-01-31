@@ -172,6 +172,16 @@ def main(
     #eqx.tree_serialise_leaves(fn, model)
     best_model = eqx.tree_deserialise_leaves(fn, model)
     PLOT_DIR = 'plots'
+    
+    # testing plot
+    t = 0
+    y = data[0]
+    print(f'shape of y: {y.shape}')
+    score = best_model(t,y)
+    print(f'shape of score: {score.shape}')
+    fig = plt.figure(figsize=(16, 16), dpi = 250)
+    plt.imshow(score,cmap='plasma')
+    plt.savefig(PLOT_DIR + '/score_test.png')
 
     sample_key = jr.split(sample_key, sample_size**2)
     sample_fn = ft.partial(single_sample_fn, best_model, int_beta, data_shape, dt0, t1)
@@ -198,9 +208,10 @@ def main(
     """
     vis_steps = 20
     t_vec = jnp.linspace(t1, 0, vis_steps)
-    sample_key = jr.split(sample_key, sample_size**2)
     for i in range(len(t_vec)):
         t0 = t_vec[i]
+        model_key, train_key, loader_key, sample_key = jr.split(key, 4)
+        sample_key = jr.split(sample_key, sample_size**2)
         sample_fn = ft.partial(single_sample_fn, best_model, int_beta, data_shape, dt0, t1,t0)
         sample = jax.vmap(sample_fn)(sample_key)
         sample = data_mean + data_std * sample
