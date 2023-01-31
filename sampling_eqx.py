@@ -168,11 +168,12 @@ def main(
 
     # load stored model
     SAVE_DIR = 'stored_models'
-    fn = SAVE_DIR + '/eqx_model_step_5000_res_64.eqx'
+    fn = SAVE_DIR + '/eqx_model_step_10000_res_64.eqx'
     eqx.tree_serialise_leaves(fn, model)
     model_loaded = eqx.tree_deserialise_leaves(fn, model)
+    PLOT_DIR = 'plots'
 
-    vis_steps = 10
+    vis_steps = 50
     t_vec = jnp.linspace(t1, 0, vis_steps)
     sample_key = jr.split(sample_key, sample_size**2)
     for i in range(len(t_vec)):
@@ -192,10 +193,10 @@ def main(
         plt.imshow(sample, cmap=cmap)
         plt.axis("off")
         plt.tight_layout()
-        filename = 'galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.png'
+        filename = PLOT_DIR + '/galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.png'
         plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)
-        filename = 'galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.pdf'
-        plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
+        #filename = PLOT_DIR + '/galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.pdf'
+        #plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
 
 
 # Code entry point
