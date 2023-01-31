@@ -182,13 +182,13 @@ def main(
     y = data[0]
     print(f'shape of y: {y.shape}')
     test_size = data.shape[0]
-    
+    batch_size = 2
     # choose point in time to evaluate score
     t_eval = 1.0
     t = jnp.array([t_eval])
-    #t = jr.uniform(tkey, (batch_size,), minval=0, maxval=t1 / batch_size)
-    #t = t + (t1 / batch_size) * jnp.arange(batch_size)
-    t = einops.reduce(t, 'b -> () b', 'max')
+    t = jr.uniform(tkey, (batch_size,), minval=0, maxval=t1 / batch_size)
+    t = t + (t1 / batch_size) * jnp.arange(batch_size)
+    #t = einops.reduce(t, 'b -> () b', 'max')
     print(f'shape of t: {t.shape}')
     print(f't is: {t}')
 
