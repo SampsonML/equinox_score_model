@@ -174,20 +174,28 @@ def main(
     PLOT_DIR = 'plots'
     
     # ----------------- testing ----------------- #
-    # testing plot
-    t1 = 10.0
-    test_size = 1
-    tkey, losskey = jr.split(train_key)
-    t = jr.uniform(tkey, (test_size,), minval=0, maxval=t1 / test_size)
-    #t = t + (t1 / test_size) * jnp.arange(test_size)
-    #t = 1
-    print(f'shape of t: {t.shape}')
-    print(f't is: {t}')
+    # maximum t for trianing is 10.0              #
+    # therefore t = 10 related to                 #
+    # pure noise (or at least close to it)        #
+    # ------------------------------------------- #
+    # take single galaxy sample
     y = data[0]
-    #y = jnp.squeeze(y,axis=0)
     print(f'shape of y: {y.shape}')
+    test_size = data.shape[0]
+    
+    # choose point in time to evaluate score
+    t = [2.0]
+    #tkey, losskey = jr.split(train_key)
+    #t = jr.uniform(tkey, (test_size,), minval=0, maxval=t1 / test_size)
+    #t = t + (t1 / test_size) * jnp.arange(test_size)
+    #print(f'shape of t: {t.shape}')
+    #print(f't is: {t}')
+
+    # evaluate score with trained model
     score = best_model(t,y)
     print(f'shape of score: {score.shape}')
+    
+    # plot and save results
     fig = plt.figure(figsize=(16, 16), dpi = 250)
     plt.subplot(1,2,1)
     plt.imshow(score,cmap='plasma')
