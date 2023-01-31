@@ -168,7 +168,7 @@ def main(
 
     # load stored model
     SAVE_DIR = 'stored_models'
-    fn = SAVE_DIR + '/eqx_model_step_0_res_64.eqx'
+    fn = SAVE_DIR + '/eqx_model_step_5000_res_64.eqx'
     eqx.tree_serialise_leaves(fn, model)
     model_loaded = eqx.tree_deserialise_leaves(fn, model)
 
