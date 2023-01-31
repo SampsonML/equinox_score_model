@@ -170,7 +170,7 @@ def main(
     SAVE_DIR = 'stored_models'
     fn = SAVE_DIR + '/eqx_model_step_10000_res_64.eqx'
     eqx.tree_serialise_leaves(fn, model)
-    model_loaded = eqx.tree_deserialise_leaves(fn, model)
+    best_model = eqx.tree_deserialise_leaves(fn, model)
     PLOT_DIR = 'plots'
 
     vis_steps = 50
@@ -178,7 +178,7 @@ def main(
     sample_key = jr.split(sample_key, sample_size**2)
     for i in range(len(t_vec)):
         t0 = t_vec[i]
-        sample_fn = ft.partial(single_sample_fn, model, int_beta, data_shape, dt0, t1,t0)
+        sample_fn = ft.partial(single_sample_fn, best_model, int_beta, data_shape, dt0, t1,t0)
         sample = jax.vmap(sample_fn)(sample_key)
         sample = data_mean + data_std * sample
         sample = jnp.clip(sample, data_min, data_max)
