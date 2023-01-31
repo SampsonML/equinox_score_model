@@ -141,7 +141,7 @@ def main(
     if not os.path.exists(SAVE_DIR):
         os.makedirs(SAVE_DIR)
     
-    key = jr.PRNGKey(seed)
+    key = jr.PRNGKey(42)
     model_key, train_key, loader_key, sample_key = jr.split(key, 4)
     data = HST_data(args.size)
     data_mean = jnp.mean(data)
