@@ -184,6 +184,7 @@ def main(
     test_size = data.shape[0]
     batch_size = 2
     # choose point in time to evaluate score
+    tkey , dummy_key= jr.split(train_key)
     t_eval = 1.0
     t = jnp.array([t_eval])
     t = jr.uniform(tkey, (batch_size,), minval=0, maxval=t1 / batch_size)
