@@ -50,14 +50,14 @@ args    = parser.parse_args()
 
 
 @eqx.filter_jit
-def single_sample_fn(model, int_beta, data_shape, dt0, t1, t0, key):
+def single_sample_fn(model, int_beta, data_shape, dt0, t1, key):
     def drift(t, y, args):
         _, beta = jax.jvp(int_beta, (t,), (jnp.ones_like(t),))
         return -0.5 * beta * (y + model(t, y))
 
     term = dfx.ODETerm(drift)
     solver = dfx.Tsit5()
-    #t0 = 0
+    t0 = 0
     y1 = jr.normal(key, data_shape)
     # reverse time, solve from t1 to t0
     sol = dfx.diffeqsolve(term, solver, t1, t0, -dt0, y1, adjoint=dfx.NoAdjoint())
@@ -168,11 +168,34 @@ def main(
 
     # load stored model
     SAVE_DIR = 'stored_models'
-    fn = SAVE_DIR + '/eqx_model_step_15000_res_64.eqx'
+    fn = SAVE_DIR + '/eqx_model_step_20000_res_64.eqx'
     #eqx.tree_serialise_leaves(fn, model)
     best_model = eqx.tree_deserialise_leaves(fn, model)
     PLOT_DIR = 'plots'
 
+    sample_key = jr.split(sample_key, sample_size**2)
+    sample_fn = ft.partial(single_sample_fn, model, int_beta, data_shape, dt0, t1)
+    sample = jax.vmap(sample_fn)(sample_key)
+    sample = data_mean + data_std * sample
+    sample = jnp.clip(sample, data_min, data_max)
+    sample = einops.rearrange(
+        sample, "(n1 n2) 1 h w -> (n1 h) (n2 w)", n1=sample_size, n2=sample_size
+    )
+    cmap = cmr.lilac
+    fig = plt.figure(figsize=(16, 16), dpi = 250)
+    plt.style.use('dark_background')
+    title = 'score based generation of equinox models'
+    plt.suptitle(title, fontsize = 30)
+    plt.imshow(sample, cmap=cmap)
+    plt.axis("off")
+    plt.tight_layout()
+    filename = PLOT_DIR + '/galaxies_loaded_' + str(args.size) + '.png'
+    plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)
+    filename = 'score_based_equinox_models_res' + str(args.size) + '.pdf'
+    plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
+    plt.show()
+
+    """
     vis_steps = 20
     t_vec = jnp.linspace(t1, 0, vis_steps)
     sample_key = jr.split(sample_key, sample_size**2)
@@ -198,7 +221,7 @@ def main(
         plt.close()
         #filename = PLOT_DIR + '/galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.pdf'
         #plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
-
+    """
 
 # Code entry point
 if __name__ == '__main__':
