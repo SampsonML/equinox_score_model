@@ -184,7 +184,7 @@ def main(
     test_size = data.shape[0]
     
     # choose point in time to evaluate score
-    t = jnp.array[1.0]
+    t = jnp.array([1.0])
     #tkey, losskey = jr.split(train_key)
     #t = jr.uniform(tkey, (test_size,), minval=0, maxval=t1 / test_size)
     #t = t + (t1 / test_size) * jnp.arange(test_size)
