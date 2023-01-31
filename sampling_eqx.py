@@ -197,9 +197,9 @@ def main(
     # plot and save results
     fig = plt.figure(figsize=(16, 16), dpi = 250)
     plt.subplot(1,2,1)
-    plt.imshow(score,cmap='plasma')
+    plt.imshow(score[0],cmap='plasma')
     plt.subplot(1,2,2)
-    plt.imshow(y)
+    plt.imshow(y[0])
     plt.savefig(PLOT_DIR + '/score_test.png')
     # ------------------- end ------------------- #
 
