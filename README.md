@@ -18,6 +18,10 @@ Parameters are saved via pickling files and simply loading them in when needed.
 A template jobscript for use on the Princeton HPC Della
 is added. 
 
+## Current results and functionality
+ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources.
+<img src="artifact_test.pdf" height="400">
+
 ## Useful papers
 ### For context scientific context:
 
