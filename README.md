@@ -12,12 +12,12 @@ SCARLET 2 details: https://pmelchior.net/blog/scarlet2-redesign.html. Scarlet 2 
 
 ## Details:
 The neural network architecture "ScoreNet" is located in models_eqx.py
-The loss function is defined in the training script train_script.py which takes in command
+The loss function is defined in the training script train_script.py that takes in command
 line inputs for the image size to train on. 
-Weights and bias's are saved as PyTrees which can then be read in and loaded (see here: https://docs.kidger.site/equinox/api/utilities/serialisation/). 
+Weights and biases are saved as PyTrees which can then be read in and loaded (see here: https://docs.kidger.site/equinox/api/utilities/serialisation/). 
 
 ## Current results and functionality
-ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources. An high score in absolute values indicates a pixel or pixel region is not consistent with the prior distribution p(x) (the training data) which here is large samples of single source SCARLET models from the Subaru Hyper Suprime-Cam.
+ScoreNet works well at removing visual artifacts such as ring patterns and multiple sources. A high score in absolute values indicates a pixel or pixel region is not consistent with the prior distribution p(x) (the training data) which here is large samples of single source SCARLET models from the Subaru Hyper Suprime-Cam.
 <img src="/images/score_runtests.png" height="400">
 
 
