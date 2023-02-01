@@ -1,7 +1,7 @@
 # Score-matching neural networks for likelihood based galaxy morphology priors
 ## Matt Sampson
 
-<img src="compare.png" height="400">
+<img src="/images/compare.png" height="400">
 
 For the use of galaxy deblending we construct a time-independent 
 score matching model (diffusion model) with a U-NET architecture. The architecture
@@ -20,12 +20,12 @@ is added.
 
 ## Current results and functionality
 Successfully remove ring artifact here:
-<img src="HSC_res64_artifact2.jpg" height="200">
-<img src="rings_single.gif" width="200" height="200"/>
+<img src="/images/HSC_res64_artifact2.jpg" height="200">
+<img src="/images/rings_single.gif" width="200" height="200"/>
 
 
 ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources.
-<img src="score_runtests.png" height="400">
+<img src="/images/score_runtests.png" height="400">
 
 ## Useful papers
 ### For context scientific context:
