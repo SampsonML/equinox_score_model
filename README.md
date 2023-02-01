@@ -19,10 +19,13 @@ A template jobscript for use on the Princeton HPC Della
 is added. 
 
 ## Current results and functionality
+ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources. An high score in absolute values indicates a pixel or pixel region is not consistent with the prior distribution p(x) (the training data) which here is large samples of single scoruce SCARLET models from the Subaru Hyper SUprime-Cam.
+<img src="/images/score_runtests.png" height="400">
+
+
 <img src="/images/HSC_res64_artifact2.jpg" height="200"> <img src="/images/rings_single.gif" width="200" height="200"/> <img src="/images/HSC_res64_artifact.jpg" height="200"> <img src="/images/multi.gif" width="200" height="200"/>
 
-ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources.
-<img src="/images/score_runtests.png" height="400">
+
 
 
 
