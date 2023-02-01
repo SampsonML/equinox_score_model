@@ -14,12 +14,10 @@ SCARLET 2 details: https://pmelchior.net/blog/scarlet2-redesign.html. Scarlet 2 
 The neural network architecture "ScoreNet" is located in models_eqx.py
 The loss function is defined in the training script train_script.py which takes in command
 line inputs for the image size to train on. 
-Parameters are saved via pickling files and simply loading them in when needed.
-A template jobscript for use on the Princeton HPC Della
-is added. 
+Weights and bias's are saved as PyTrees which can then be read in and loaded (see here: https://docs.kidger.site/equinox/api/utilities/serialisation/). 
 
 ## Current results and functionality
-ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources. An high score in absolute values indicates a pixel or pixel region is not consistent with the prior distribution p(x) (the training data) which here is large samples of single scoruce SCARLET models from the Subaru Hyper SUprime-Cam.
+ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources. An high score in absolute values indicates a pixel or pixel region is not consistent with the prior distribution p(x) (the training data) which here is large samples of single source SCARLET models from the Subaru Hyper SUprime-Cam.
 <img src="/images/score_runtests.png" height="400">
 
 
