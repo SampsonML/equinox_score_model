@@ -20,7 +20,7 @@ is added.
 
 ## Current results and functionality
 ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources.
-<img src="artifact_test.png" height="400">
+<img src="score_runtests.png" height="400">
 
 ## Useful papers
 ### For context scientific context:
