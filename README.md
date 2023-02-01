@@ -21,7 +21,7 @@ is added.
 ## Current results and functionality
 Successfully remove ring artifact here:
 <img src="HSC_res64_artifact2.jpg" height="200">
-![](https://github.com/SampsonML/equinox_score_model/blob/main/rings_single.gif)
+<img src="rings_single.gif" width="200" height="200"/>
 
 
 ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources.
