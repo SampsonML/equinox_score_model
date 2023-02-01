@@ -17,7 +17,7 @@ line inputs for the image size to train on.
 Weights and bias's are saved as PyTrees which can then be read in and loaded (see here: https://docs.kidger.site/equinox/api/utilities/serialisation/). 
 
 ## Current results and functionality
-ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources. An high score in absolute values indicates a pixel or pixel region is not consistent with the prior distribution p(x) (the training data) which here is large samples of single source SCARLET models from the Subaru Hyper Suprime-Cam (HSC).
+ScoreNet works well at removing visual artifacts such as ring patterns or multiple sources. An high score in absolute values indicates a pixel or pixel region is not consistent with the prior distribution p(x) (the training data) which here is large samples of single source SCARLET models from the Subaru Hyper Suprime-Cam.
 <img src="/images/score_runtests.png" height="400">
 
 
