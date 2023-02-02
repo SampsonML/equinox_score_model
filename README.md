@@ -44,7 +44,7 @@ score should be a (1, 64, 64) size array
 plt.imshow(score64[0])  
 plt.show()  
 
-Optional, note that ScoreNetXX(y,t=0). ScoreNet takes in an image and can optionally be passes a time. This time corresponds to a noise level of the input image where t = 10 means the image will be blurred to close to pure Gaussian noise then the score is taken. Setting t = 0, which is defaul means no noise will be added. The noise level scales from max at t = 10 (arbitrarily chosen at training) to t = 0 via a scaling image = image + noise * (1 - exp(t))
+Optional, note that ScoreNetXX(y,t=0). ScoreNet takes in an image and can optionally be passes a time. This time corresponds to a noise level of the input image where t = 10 means the image will be blurred to close to pure Gaussian noise then the score is taken. Setting t = 0, which is defaul means no noise will be added. The noise level scales from max at t = 10 (arbitrarily chosen at training) to t = 0 via a scaling image = image + noise * (1 - exp(-t))
 
 
 
