@@ -1,0 +1,10 @@
+# Required packages and modules
+# update specific versions - currently all latest verisons work
+
+functools
+einops
+jax
+optax
+equinox
+diffrax
+argparse
