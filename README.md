@@ -5,7 +5,7 @@
 
 For the use of galaxy deblending we construct a time-independent 
 score matching model (diffusion model) with a U-NET architecture. The architecture
-is a JAX -> equinox port from Song+21 NCSN (https://arxiv.org/abs/2011.13456  ).
+is a JAX -> equinox port from Song+21 NCSN (https://arxiv.org/abs/2011.13456) mostly by (https://docs.kidger.site/equinox/examples/score_based_diffusion/) with minor changes.
 
 This score network is to be used as a galaxy morphology prior in the upcoming 
 SCARLET 2 details: https://pmelchior.net/blog/scarlet2-redesign.html. Scarlet 2 code here: https://github.com/pmelchior/scarlet2
