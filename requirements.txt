@@ -6,5 +6,5 @@ einops
 jax
 optax
 equinox
-diffrax
+diffrax  # for sampling, should install with latest equinox
 argparse
