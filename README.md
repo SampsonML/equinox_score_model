@@ -1,5 +1,6 @@
-# Score-matching neural networks for likelihood based galaxy morphology priors
-<img src="/images/scorenet_decal.jpg" height="300">
+# Score-matching neural networks for galaxy morphology priors
+<img src="/images/scorenet_decal.jpg" height="300">   
+
 ## Matt Sampson
 
 <img src="/images/compare.png" height="400">
