@@ -79,7 +79,7 @@ class ScoreNet(eqx.Module):
         self.norm = eqx.nn.LayerNorm((hidden_size, num_patches))
         self.t1 = t1
 
-    def __call__(self, t, y):
+    def __call__(self, y, t=0):
         t = t / self.t1
         _, height, width = y.shape
         #t = einops.repeat(t, "-> 1 h w", h=height, w=width)
