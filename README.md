@@ -33,14 +33,14 @@ from scorenet import ScoreNet32, ScoreNet64
 y = image_32  
 score32 = ScoreNet32(y)  
 print(f'size score is {score32.shape}')  
-#### score should be a (1, 32, 32) size array  
+score should be a (1, 32, 32) size array  
 plt.imshow(score32[0])  
 plt.show()  
 
 y = image_64  
 score64 = ScoreNet64(y)  
 print(f'size score is {score64.shape}')  
-#### score should be a (1, 64, 64) size array  
+score should be a (1, 64, 64) size array  
 plt.imshow(score64[0])  
 plt.show()  
 
