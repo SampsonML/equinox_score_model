@@ -53,7 +53,7 @@ args    = parser.parse_args()
 def single_sample_fn(model, int_beta, data_shape, dt0, t1, key):
     def drift(t, y, args):
         _, beta = jax.jvp(int_beta, (t,), (jnp.ones_like(t),))
-        return -0.5 * beta * (y + model(t, y))
+        return -0.5 * beta * (y + model(y, t))
 
     term = dfx.ODETerm(drift)
     solver = dfx.Tsit5()
@@ -191,7 +191,7 @@ def main(
     print(f't is: {t}')
 
     # evaluate score with trained model
-    score = best_model(t,y)
+    score = best_model(y, t)
     print(f'shape of score: {score.shape}')
     
     # plot and save results
@@ -229,34 +229,6 @@ def main(
     plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
     plt.show()
 
-    """
-    vis_steps = 20
-    t_vec = jnp.linspace(t1, 0, vis_steps)
-    for i in range(len(t_vec)):
-        t0 = t_vec[i]
-        model_key, train_key, loader_key, sample_key = jr.split(key, 4)
-        sample_key = jr.split(sample_key, sample_size**2)
-        sample_fn = ft.partial(single_sample_fn, best_model, int_beta, data_shape, dt0, t1,t0)
-        sample = jax.vmap(sample_fn)(sample_key)
-        sample = data_mean + data_std * sample
-        sample = jnp.clip(sample, data_min, data_max)
-        sample = einops.rearrange(
-            sample, "(n1 n2) 1 h w -> (n1 h) (n2 w)", n1=sample_size, n2=sample_size
-        )
-        cmap = cmr.lilac
-        fig = plt.figure(figsize=(16, 16), dpi = 250)
-        plt.style.use('dark_background')
-        title = 'score based generation of equinox models'
-        plt.suptitle(title, fontsize = 30)
-        plt.imshow(sample, cmap=cmap)
-        plt.axis("off")
-        plt.tight_layout()
-        filename = PLOT_DIR + '/galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.png'
-        plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)
-        plt.close()
-        #filename = PLOT_DIR + '/galaxies_t_' + str(len(t_vec) - i) + 'res' + str(args.size) + '.pdf'
-        #plt.savefig(filename,facecolor='black', transparent=False ,dpi = 250)   
-    """
 
 # Code entry point
 if __name__ == '__main__':
