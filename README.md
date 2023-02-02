@@ -23,7 +23,28 @@ ScoreNet works well at removing visual artifacts such as ring patterns and multi
 
 <img src="/images/HSC_res64_artifact2.jpg" height="200"> <img src="/images/rings_single.gif" width="200" height="200"/> <img src="/images/HSC_res64_artifact.jpg" height="200"> <img src="/images/multi.gif" width="200" height="200"/>
 
+## Useage
+Simple case to return the score function of an image. Currently works on 32 by 32 and 64 by 64 size images but can be altered.
 
+To load score networks:
+
+from scorenet import ScoreNet32, ScoreNet64
+
+y = image_32
+score32 = ScoreNet32(y)
+print(f'size score is {score32.shape}')
+# score should be a (1, 32, 32) size array
+plt.imshow(score32[0])
+plt.show()
+
+y = image_64
+score64 = ScoreNet64(y)
+print(f'size score is {score64.shape}')
+# score should be a (1, 64, 64) size array
+plt.imshow(score64[0])
+plt.show()
+
+Optional, note that ScoreNetXX(y,t=0). ScoreNet takes in an image and can optionally be passes a time. This time corresponds to a noise level of the input image where t = 10 means the image will be blurred to close to pure Gaussian noise then the score is taken. Setting t = 0, which is defaul means no noise will be added. The noise level scales from max at t = 10 (arbitrarily chosen at training) to t = 0 via a scaling image = image + noise * (1 - exp(t))
 
 
 
