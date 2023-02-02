@@ -54,7 +54,7 @@ def single_loss_fn(model, weight, int_beta, data, t, key):
     std = jnp.sqrt(var)
     noise = jr.normal(key, data.shape)
     y = mean + std * noise
-    pred = model(t, y)
+    pred = model(y , t)
     return weight(t) * jnp.mean((pred + noise / std) ** 2)
 
 
@@ -74,7 +74,7 @@ def batch_loss_fn(model, weight, int_beta, data, t1, key):
 def single_sample_fn(model, int_beta, data_shape, dt0, t1, key):
     def drift(t, y, args):
         _, beta = jax.jvp(int_beta, (t,), (jnp.ones_like(t),))
-        return -0.5 * beta * (y + model(t, y))
+        return -0.5 * beta * (y + model(y, t))
 
     term = dfx.ODETerm(drift)
     solver = dfx.Tsit5()
