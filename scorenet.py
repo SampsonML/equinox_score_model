@@ -52,3 +52,22 @@ model32 = ScoreNet(
 SAVE_DIR = 'stored_models'
 fn = SAVE_DIR + '/eqx_scorenet32.eqx'
 ScoreNet32 = eqx.tree_deserialise_leaves(fn, model32)
+
+
+# initialise model for 16 res
+data_shape = (1, 16, 16)
+model16 = ScoreNet(
+        data_shape,
+        patch_size,
+        hidden_size,
+        mix_patch_size,
+        mix_hidden_size,
+        num_blocks,
+        t1,
+        key=model_key,
+)
+
+# load 16 res model
+SAVE_DIR = 'stored_models'
+fn = SAVE_DIR + '/eqx_scorenet16.eqx'
+ScoreNet16 = eqx.tree_deserialise_leaves(fn, model16)
