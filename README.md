@@ -26,6 +26,8 @@ ScoreNet works well at removing visual artifacts such as ring patterns and multi
 <img src="/images/HSC_res64_artifact2.jpg" height="200"> <img src="/images/rings_single.gif" width="200" height="200"/> <img src="/images/HSC_res64_artifact.jpg" height="200"> <img src="/images/multi.gif" width="200" height="200"/>
 
 ## Useage -- see demo notebook
+### Update, I have made a pip installable package (https://pypi.org/project/galaxygrad/0.0.1/) which you can use to install instead of cloning this repo.
+
 Simple case to return the score function of an image. Currently works on 32 by 32 and 64 by 64 size images but can be altered. Note the input image must be in dimensions (n, size, size) where n is the number of images, n is the image size either 32 or 64. If using (size, size) data apply jnp.expand_dims(data, axis=0) to add an arbitrary first dimension. 
 
 To load score networks:
